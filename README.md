@@ -7,8 +7,6 @@ Instacart is an American technology company that operates as a same-day grocery 
 ### Objectives:
 - Analyze the anonymized [data](https://www.kaggle.com/c/instacart-market-basket-analysis/data) of 3 million grocery orders from more than 200,000 Instacart users open sourced by Instacart 
 - Find out hidden association between products for better cross-selling and upselling
-- Perform customer segmentation for targeted marketing and anticipate customer behavior
-- Build a Machine Learning model to predict which previously purchased product will be in user’s next order
 
 ### Project Organization
 ```
@@ -16,7 +14,6 @@ Instacart is an American technology company that operates as a same-day grocery 
 ├── Plots/                                      : Contains all plots 
 ├── Data Description and Analysis.ipynb         : Initial analysis to understand data
 ├── Exploratory Data Analysis.ipynb             : EDA to analyze customer purchase pattern
-├── Customers Segmentation.ipynb                : Customer Segmentation based on product aisles
 ├── Market Basket Analysis.ipynb                : Market Basket Analysis to find products association
 ├── LICENSE                                     : License
 └── README.md                                   : Project Report 
@@ -39,15 +36,15 @@ Instacart is an American technology company that operates as a same-day grocery 
     - Based on the heatmap between 'Day of Week' and 'Hour of Day,' we can say that Saturday afternoons and Sunday mornings are prime time for orders.
     
 <p align="center">
-  <img width="300" height="200" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/dow.png">
+  <img width="300" height="200" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/dow.png">
 </p>
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/orders.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/orders.png">
 </p>  
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/heatmap.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/heatmap.png">
 </p>
 
 - **products:** This file contains the list of total 49688 products and their aisle as well as department. The number of products in different aisles and different departments are different.
@@ -59,7 +56,7 @@ Instacart is an American technology company that operates as a same-day grocery 
     - The percentage of reorder items in this set is 58.97%.
     
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/prior.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/prior.png">
 </p>
     
     
@@ -69,7 +66,7 @@ Instacart is an American technology company that operates as a same-day grocery 
     - The percentage of reorder items in this set is 59.86%.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/train.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/train.png">
 </p>
     
 ## Exploratory Data Analysis
@@ -78,58 +75,58 @@ For the analysis I combined all of the separate data files into one single dataf
 - This plot shows most popular aisles based on total products bought.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/popular-aisles.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/popular-aisles.png">
 </p>
 
 - As we can see in below plot that the reorder percentage of day-to-day food items is high and for other products such as vitamins, first-aids, beauty products, etc. reorder percentage is low. This is true as we buy only groceries regularly and do not buy those items in every order.
 
 <p align="center">
-<img width="400" height="220" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/aisle-high-reorder.png"> 
-<img width="400" height="220" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/aisle-low-reorder.png"> 
+<img width="400" height="220" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/aisle-high-reorder.png"> 
+<img width="400" height="220" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/aisle-low-reorder.png"> 
 <p/>
 
 - The below plot shows popular departments. The store layout should be in a way that popular departments are very near to each other.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/popular-departments.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/popular-departments.png">
 </p>
 
 - The below plot shows most popular products. As we can see there are many organic products in the most popular products.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/Most-popular-products.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/Most-popular-products.png">
 </p>
 
 - We can see that there are less number of organic products but their Mean reorder percentage is high. This tells us that we should have more organic products in the store.
 
 <p align="center">
-    <img width="400" height="250" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/Total-organic-inorganic-products.png"/> 
-    <img width="400" height="250" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/Reorder-organic-inorganic-products.png"/>
+    <img width="400" height="250" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/Total-organic-inorganic-products.png"/> 
+    <img width="400" height="250" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/Reorder-organic-inorganic-products.png"/>
 </p>
 
 
 - We can plot add-to-cart-order and mean reorder percentage. As we can see the lower the add-to-cart-order higher is the reorder percentage. This makes sense as we mostly buy things first that are required on day-to-day basis.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/Add-to-cart-VS-reorder.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/Add-to-cart-VS-reorder.png">
 </p>
 
 - In the below plot of reorder percentage and number of product purchase, we see a ceiling effect. Many people try different product once and they do not reorder again. Also, there are users who buy certain products regularly. 
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/reorder-total-orders.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/reorder-total-orders.png">
 </p>
 
 - We can see that the total unique users of products having highest reorder ratio are only few (1-15 only). This means that these users like these products and would buy regularly.
 
 <p align="center">
-  <img width="500" height="400" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/reorder-df.png">
+  <img width="500" height="400" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/reorder-df.png">
 </p>
 
 - In the below plot of cumulative total users per product vs products, we can see that 85% of the users buy only 10000 products out of 49688 products. If we are interested in shelf space optimization, we should have only these 10000 products. Here, I assume that the profit from remaining 39688 products are not significant high. If we had prices of these products, we could have considered the products having high revenue, high reorder percentage and high total product sale.
 
 <p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/cumsum_products.png">
+  <img width="600" height="300" src="https://raw.githubusercontent.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/main/Plots/cumsum_products.png">
 </p>
 
 ## Markest Basket Analysis
