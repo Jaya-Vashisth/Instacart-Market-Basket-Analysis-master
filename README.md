@@ -18,10 +18,6 @@ Instacart is an American technology company that operates as a same-day grocery 
 ├── Exploratory Data Analysis.ipynb             : EDA to analyze customer purchase pattern
 ├── Customers Segmentation.ipynb                : Customer Segmentation based on product aisles
 ├── Market Basket Analysis.ipynb                : Market Basket Analysis to find products association
-├── Feature Extraction.ipynb                    : Feature engineering and extraction for a ML model
-├── Data Preparation.ipynb                      : Data preparation for modeling
-├── ANN Model.ipynb                             : Neural Network model for product reorder prediction
-├── XGBoost Model.ipynb                         : XGBoost model for product reorder prediction
 ├── LICENSE                                     : License
 └── README.md                                   : Project Report 
 ```
@@ -136,29 +132,6 @@ For the analysis I combined all of the separate data files into one single dataf
   <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/cumsum_products.png">
 </p>
 
-## Customer Segmentation
-
-Customer segmentation is the process of dividing customers into groups based on common characteristics so companies can market to each group effectively and appropriately. We can perform segmentation using the data of which products users buy. Since there are thousonds of products and also thousands of customers, I utilized aisles which represent categories of products. 
-
-I then performed Principal component analysis to reduce dimensions as KMeans does not produce good results on higher dimensions. Using 10 principal components I carried out KMeans clustering. I chose optimal number of clusters as 5 using Elbow method shown below.
-
-<p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/elbow.png">
-</p>
-
-The clustering can be visualized along first two principal components as below.
-
-<p align="center">
-  <img width="600" height="400" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/cluster.png">
-</p>
-
-The clustering results into 5 neat clusters and after checking most frequent products in them, we can conclude following:
-- Cluster 1 results into 5428 consumers having a very strong preference for water seltzer sparkling water aisle.
-- Cluster 2 results into 55784 consumers who mostly order fresh vegetables followed by fruits.
-- Cluster 3 results into 7948 consumers who buy packaged produce and fresh fruits mostly.
-- Cluster 4 results into 37949 consumers who have a very strong preference for fruits followed by fresh vegetables.
-- Cluster 5 results into 99100 consumers who orders products from many aisles. Their mean orders are low compared to other clusters which tells us that either they are not frequent users of Instacart or they are new users and do not have many orders yet. 
-
 ## Markest Basket Analysis
 
 Market Basket Analysis is a modelling technique based upon the theory that if you buy a certain group of items, you are more or less likely to buy another group of items. Market basket analysis may provide the retailer with information to understand the purchase behavior of a buyer. This information can then be used for purposes of cross-selling and up-selling, in addition to influencing sales promotions, loyalty programs, store design, and discount plans.
@@ -205,99 +178,3 @@ I utilized apriori algorithm from Mlxtend python library and found out associati
 | Organic Hass Avocado | Bag of Organic Bananas | 1.81 |
 | Honeycrisp Apple | Banana | 1.77 |
 | Organic Avocado | Organic Baby Spinach | 1.70 |
-
-## ML Model to Predict Product Reorders
-
-We can utilize this anonymized transactional data of customer orders over time to predict which previously purchased products will be in a user’s next order. This would help recommend the products to a user. 
-
-To build a model, I need to extract features from previous order to understand user's purchase pattern and how popular the particular product is. I extract following features from the user's transactional data.
-
-**Product Level Features:** To understand the product's popularity among users
-```
-(1) Product's average add-to-cart-order
-(2) Total times the product was ordered
-(3) Total times the product was reordered
-(4) Reorder percentage of a product
-(5) Total unique users of a product
-(6) Is the product Organic?
-(7) Percentage of users that buy the product second time
-```
-
-**Aisle and Department Level Features:** To capture if a department and aisle are related to day-to-day products (vegetables, fruits, soda, water, etc.) or once-in-a-while products (medicines, personal-care, etc.) 
-```
-(8) Reorder percentage, Total orders and reorders of a product aisle
-(9) Mean and std of aisle add-to-cart-order
-(10) Aisle unique users
-(10) Reorder percentage, Total orders and reorders of a product department
-(11) Mean and std of department add-to-cart-order
-(12) Department unique users
-(13) Binary encoding of aisle feature (Because one-hot encoding results in many features and make datarame sparse)
-(14) Binary encoding of department feature (Because one-hot encoding results in many features and make datarame sparse)
-```
-
-**User Level features:** To capture user's purchase pattern and behavior
-```
-(15) User's average and std day-of-week of order
-(16) User's average and std hour-of-day of order
-(17) User's average and std days-since-prior-order
-(18) Total orders by a user
-(19) Total products user has bought
-(20) Total unique products user has bought
-(21) user's total reordered products
-(22) User's overall reorder percentage
-(23) Average order size of a user
-(24) User's mean of reordered items of all orders
-(25) Percentage of reordered itmes in user's last three orders
-(26) Total orders in user's last three orders
-```
-
-**User-product Level Features:** To capture user's pattern of ordering-reordering specific products 
-```
-(27) User's avg add-to-cart-order for a product
-(28) User's avg days_since_prior_order for a product
-(29) User's product total orders, reorders and reorders percentage
-(30) User's order number when the product was bought last
-(31) User's product purchase history of last three orders
-```
-
-### ML Models
-
-Using the extracted features, I prepared a dataframe which shows all the products user has bought previously, user level features, product level features, asile and department level features, user-product level features and the information of current order such as order's day-of-week, hour-of-day, etc. The Traget would be 'reordered' which shows how many of the previously purchased items, user ordered this time. 
-
-Since the dataframe is huge, I reduced the memory consumption of it by downcasting to fit the data int my memory. I preferred MinMaxScaler over StandardScaler as the latter requires 16 GB of RAM for its operation. I followed standard process for model building and I relied on XGBoost as it handles large data, can be parallelized and gives feature importance. I also built Neural Network to see what would be the best performance from this model disregarding some inherent randomness from both of these models.  To balance the data, I have used cost-sensitive learning by assigning class weightage (~{0:1, 1:10}). I have not used random-upsampling/SMOTE as it would increase the data size and I do not have much memory. Also, since random-down-sampling discards information which might be important and would result in bias. 
-
-Since, we can hack the F1 score by changing the threshold, I relied on AUC Score for model evaluation. The performance of both of these models is shown below using Confusion Matrix, ROC curve and classification report. The feature important plot from XGBoost model is also shown to understand important features which help predict product's reorder. The performance of both models is almost similar and XGBoost slightly performs better in terms of ROC-AUC.
-
-**Neural Network Model Architecture and Performance:**
-
-<p align="center">
-  <img width="400" height="200" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/NN%20Architecture.png">
-</p>
-
-<p align="center">
-  <img width="400" height="200" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/NN-Report.png">
-</p>
-
-<p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/NN-Performance.png">
-</p>
-
-
-**XGBoost Model's Performance and Feature Importance:**
-
-<p align="center">
-  <img width="400" height="200" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/XGBoost-Report.png">
-</p>
-
-<p align="center">
-  <img width="600" height="300" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/XGBoost%20Performance.png">
-</p>
-
-<p align="center">
-  <img width="500" height="750" src="https://github.com/Jaya-Vashisth/Instacart-Market-Basket-Analysis-master/Plots/XGBoost%20Feature%20Importance%20Plot.png">
-</p>
-
-
-## Future Work
-
-- Utilize Collaborative filtering to recommend products to a customer. 
